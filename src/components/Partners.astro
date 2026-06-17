@@ -1,6 +1,7 @@
 ---
 import partners from "../data/partners.json";
 const items = partners.items || [];
+const loop = [...items, ...items];
 ---
 {items.length > 0 && (
   <section class="partners">
@@ -9,8 +10,10 @@ const items = partners.items || [];
         <span class="eyebrow">השותפים שלנו</span>
         <h2>{partners.title}</h2>
       </div>
-      <div class="logo-grid reveal">
-        {items.map((p) => (
+    </div>
+    <div class="marquee">
+      <div class="marquee-track">
+        {loop.map((p) => (
           <div class="logo-cell"><img src={p.logo} alt={p.name} loading="lazy" /></div>
         ))}
       </div>

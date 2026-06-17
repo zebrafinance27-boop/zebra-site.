@@ -291,14 +291,18 @@ footer .brand img{height:40px}
 .back-link{display:inline-flex;align-items:center;gap:7px;color:var(--green-deep);font-weight:600;margin-bottom:18px}
 @media (max-width:900px){.post-grid{grid-template-columns:1fr}}
 
-/* ===== partners / financial institutions logos ===== */
-.partners{padding:72px 0;background:var(--paper);border-block:1px solid var(--line)}
-.logo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:18px;margin-top:38px}
-.logo-cell{display:grid;place-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px 20px;min-height:104px;transition:box-shadow .2s,transform .2s,border-color .2s}
-.logo-cell:hover{box-shadow:var(--shadow-sm);transform:translateY(-3px);border-color:#dce6cf}
-.logo-cell img{max-height:52px;max-width:140px;width:auto;object-fit:contain}
+/* ===== partners / financial institutions — infinite marquee ===== */
+.partners{padding:66px 0;background:var(--paper);border-block:1px solid var(--line)}
+.marquee{position:relative;margin-top:36px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
+.marquee-track{display:flex;width:max-content;gap:18px;animation:marquee 38s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.logo-cell{flex:0 0 auto;display:grid;place-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 30px;width:210px;height:104px;transition:box-shadow .2s,transform .2s,border-color .2s}
+.logo-cell:hover{box-shadow:var(--shadow-sm);transform:translateY(-4px);border-color:#dce6cf}
+.logo-cell img{max-height:52px;max-width:150px;width:auto;object-fit:contain}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media (max-width:600px){
-  .logo-grid{grid-template-columns:repeat(2,1fr);gap:12px}
-  .logo-cell{min-height:84px;padding:18px 12px}
-  .logo-cell img{max-height:42px;max-width:110px}
+  .logo-cell{width:160px;height:88px;padding:18px 22px}
+  .logo-cell img{max-height:42px;max-width:120px}
+  .marquee-track{animation-duration:28s}
 }
+@media (prefers-reduced-motion:reduce){.marquee-track{animation:none;flex-wrap:wrap;justify-content:center}}
