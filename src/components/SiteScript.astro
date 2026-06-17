@@ -130,6 +130,9 @@ function submitLead(){
   });
   console.log("LEAD:",lead);
 
+  // אירוע Lead לפיקסל של מטא (פייסבוק) — נורה רק לאחר שליחה מוצלחת
+  if(window.fbq) fbq('track','Lead');
+
   if(CONFIG.sendToWhatsApp){
     const qaLines=Object.entries(qa).map(([q,a])=>`${q} ${a}`).join("%0A");
     const msg=`היי, אני ${lead.name}. השארתי פרטים באתר זברה.%0Aטלפון: ${lead.phone}%0Aאימייל: ${lead.email}%0A${qaLines}`;
