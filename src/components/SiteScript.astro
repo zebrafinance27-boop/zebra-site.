@@ -149,6 +149,34 @@ document.querySelectorAll(".bl .big[data-to]").forEach(el=>countObs.observe(el))
 const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:.12});
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 
+
+/* ----- מחשבון הלוואה (הערכה להמחשה בלבד) ----- */
+(function(){
+  const amount=document.getElementById("calcAmount");
+  const term=document.getElementById("calcTerm");
+  if(!amount||!term) return;
+  const amountOut=document.getElementById("calcAmountOut");
+  const termOut=document.getElementById("calcTermOut");
+  const monthlyOut=document.getElementById("calcMonthly");
+  const ANNUAL_RATE=0.09; // ריבית לדוגמה להמחשה בלבד
+  const ils=n=>"\u20aa"+Math.round(n).toLocaleString("he-IL");
+  function fillTrack(el){
+    const pct=((el.value-el.min)/(el.max-el.min))*100;
+    el.style.setProperty("--pct",pct+"%");
+  }
+  function calc(){
+    const P=+amount.value, n=+term.value, r=ANNUAL_RATE/12;
+    const m = r>0 ? P*r/(1-Math.pow(1+r,-n)) : P/n;
+    amountOut.textContent=ils(P);
+    termOut.textContent=n+" \u05d7\u05d5\u05d3\u05e9\u05d9\u05dd";
+    monthlyOut.textContent=ils(m);
+    fillTrack(amount); fillTrack(term);
+  }
+  amount.addEventListener("input",calc);
+  term.addEventListener("input",calc);
+  calc();
+})();
+
 /* ----- תפריט מובייל ----- */
 (function(){
   const t=document.getElementById("navToggle"), n=document.getElementById("siteNav");
