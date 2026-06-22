@@ -1,5 +1,5 @@
 ---
-approved: true
+approved: false
 name: רונן צברי
 city: רחובות
 rating: 5
