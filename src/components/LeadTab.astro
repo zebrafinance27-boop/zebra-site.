@@ -1,0 +1,68 @@
+---
+// לשונית צד צפה שמובילה לטופס הלידים (#lead). אם אין טופס בעמוד — מפנה לדף הבית.
+---
+<a id="zbLeadTab" class="zb-lead-tab" href="#lead" aria-label="השארת פרטים">
+  השאירו פרטים
+</a>
+
+<script is:inline>
+  (function () {
+    var t = document.getElementById("zbLeadTab");
+    if (!t) return;
+    t.addEventListener("click", function (e) {
+      var target = document.getElementById("lead");
+      e.preventDefault();
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        var first = target.querySelector("input, textarea, button");
+        if (first) setTimeout(function () { try { first.focus({ preventScroll: true }); } catch (e) {} }, 600);
+      } else {
+        window.location.href = "/#lead";
+      }
+    });
+  })();
+</script>
+
+<style>
+  .zb-lead-tab {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: 55;
+    writing-mode: vertical-rl;
+    background: var(--green);
+    color: #fff;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: .95rem;
+    letter-spacing: .03em;
+    padding: 20px 10px;
+    border-radius: 14px 0 0 14px;
+    box-shadow: -10px 0 26px -12px rgba(76,138,36,.85);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    transition: padding-right .18s, background .18s, box-shadow .18s;
+  }
+  .zb-lead-tab::before {
+    content: "✎";
+    writing-mode: horizontal-tb;
+    font-size: 1.05rem;
+    line-height: 1;
+  }
+  .zb-lead-tab:hover {
+    background: var(--green-deep);
+    padding-right: 15px;
+    box-shadow: -14px 0 30px -12px rgba(76,138,36,.95);
+  }
+  .zb-lead-tab:active { transform: translateY(-50%) scale(.98); }
+
+  @media (max-width: 640px) {
+    .zb-lead-tab { font-size: .82rem; padding: 15px 8px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .zb-lead-tab { transition: background .18s; }
+  }
+</style>
