@@ -12,13 +12,12 @@
     <div class="zb-cookie-body">
       <h3>רגע לפני שנמשיך</h3>
       <p>
-        אנחנו משתמשים בעוגיות כדי שהאתר יעבוד חלק וכדי להבין מה עוזר לכם —
-        כולל כלי מדידה של צד שלישי. אפשר לקבל הכל, או להסתפק בהכרחי בלבד.
+        אנחנו משתמשים בעוגיות כדי שהאתר יעבוד חלק, לשיפור החוויה, ולמדידה.
+        המשך הגלישה מהווה הסכמה לשימוש בעוגיות.
         <a href="/privacy/" class="zb-cookie-link">מדיניות הפרטיות</a>
       </p>
       <div class="zb-cookie-actions">
-        <button type="button" class="zb-btn zb-btn-accept" id="zbCookieAccept">מקבל/ת הכל</button>
-        <button type="button" class="zb-btn zb-btn-reject" id="zbCookieReject">רק ההכרחי</button>
+        <button type="button" class="zb-btn zb-btn-accept" id="zbCookieAccept">מסכים/ה</button>
       </div>
     </div>
   </div>
@@ -33,25 +32,18 @@
     var stored = null;
     try { stored = localStorage.getItem(KEY); } catch (e) {}
 
-    // מציגים את הבאנר רק אם עוד לא הוחלט
-    if (stored !== "granted" && stored !== "denied") {
+    // מציגים את הבאנר רק אם המשתמש עוד לא אישר
+    if (stored !== "granted") {
       el.hidden = false;
       requestAnimationFrame(function () { el.classList.add("show"); });
     }
 
-    function decide(value) {
-      try { localStorage.setItem(KEY, value); } catch (e) {}
-      if (value === "granted" && typeof window.loadMetaPixel === "function") {
-        window.loadMetaPixel();
-      }
+    var a = document.getElementById("zbCookieAccept");
+    if (a) a.addEventListener("click", function () {
+      try { localStorage.setItem(KEY, "granted"); } catch (e) {}
       el.classList.remove("show");
       setTimeout(function () { el.hidden = true; }, 350);
-    }
-
-    var a = document.getElementById("zbCookieAccept");
-    var r = document.getElementById("zbCookieReject");
-    if (a) a.addEventListener("click", function () { decide("granted"); });
-    if (r) r.addEventListener("click", function () { decide("denied"); });
+    });
   })();
 </script>
 
