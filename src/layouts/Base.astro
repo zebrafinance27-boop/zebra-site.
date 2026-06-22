@@ -4,6 +4,8 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Floaters from "../components/Floaters.astro";
 import SiteScript from "../components/SiteScript.astro";
+import CookieConsent from "../components/CookieConsent.astro";
+import AccessibilityWidget from "../components/AccessibilityWidget.astro";
 
 const {
   title = "זברה — הדרך הקלה להלוואה",
@@ -36,21 +38,26 @@ const orgSchema = {
   <link rel="canonical" href={canonical} />
   <link rel="icon" href="/images/logo.png" />
 
-  <!-- Meta Pixel Code -->
+  <!-- Meta Pixel — נטען רק לאחר הסכמה לעוגיות (זמין דרך window.loadMetaPixel) -->
   <script is:inline>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1006480998397707');
-    fbq('track', 'PageView');
+    window.loadMetaPixel = function () {
+      if (window.__zbPixelLoaded) return;
+      window.__zbPixelLoaded = true;
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1006480998397707');
+      fbq('track', 'PageView');
+    };
+    try {
+      if (localStorage.getItem('zebra_cookie_consent') === 'granted') { window.loadMetaPixel(); }
+    } catch (e) {}
   </script>
-  <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1006480998397707&ev=PageView&noscript=1" alt="" /></noscript>
   <!-- End Meta Pixel Code -->
 
   <!-- Open Graph -->
@@ -77,5 +84,7 @@ const orgSchema = {
   <Footer />
   <Floaters />
   <SiteScript />
+  <CookieConsent />
+  <AccessibilityWidget />
 </body>
 </html>
